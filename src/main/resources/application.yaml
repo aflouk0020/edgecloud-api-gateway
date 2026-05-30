@@ -56,3 +56,8 @@ management:
   health:
     defaults:
       enabled: true
+
+logging:
+  level:
+    org.springframework.cloud.gateway: INFO
+    com.edgecloud.gateway: DEBUG
