@@ -36,7 +36,7 @@ spring:
               predicates:
                 - Path=/api/v1/alerts/**
               filters:
-                - StripPrefix=3
+                - StripPrefix=2
 
 eureka:
   client:
