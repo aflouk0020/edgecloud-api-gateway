@@ -31,6 +31,11 @@ spring:
               filters:
                 - StripPrefix=3
 
+            - id: alert-rule-service
+              uri: lb://EDGECLOUD-ALERT-SERVICE
+              predicates:
+                - Path=/api/v2/projects/*/alert-rules/**
+
             - id: alert-service
               uri: lb://EDGECLOUD-ALERT-SERVICE
               predicates:
