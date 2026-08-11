@@ -46,6 +46,11 @@ spring:
               predicates:
                 - Path=/api/v2/projects/*/escalation-policy,/api/v2/projects/*/escalation-policy/**
 
+            - id: alert-maintenance-window-service
+              uri: lb://EDGECLOUD-ALERT-SERVICE
+              predicates:
+                - Path=/api/v2/projects/*/maintenance-windows,/api/v2/projects/*/maintenance-windows/**
+
             - id: alert-event-service
               uri: lb://EDGECLOUD-ALERT-SERVICE
               predicates:
