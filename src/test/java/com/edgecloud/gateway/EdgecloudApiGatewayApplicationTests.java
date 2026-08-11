@@ -18,7 +18,7 @@ class EdgecloudApiGatewayApplicationTests {
     }
 
     @Test
-    void preservesAlertRoutesAndPlacesProjectAlertEventsOnAlertService() {
+    void preservesAlertRoutesAndPlacesProjectAlertApisOnAlertService() {
         assertThat(route(3, "id")).isEqualTo("notification-service");
         assertThat(route(3, "uri")).isEqualTo("lb://EDGECLOUD-NOTIFICATION-SERVICE");
         assertThat(route(3, "predicates[0]")).isEqualTo("Path=/api/v2/notifications/**");
@@ -32,10 +32,16 @@ class EdgecloudApiGatewayApplicationTests {
         assertThat(route(5, "uri")).isEqualTo("lb://EDGECLOUD-ALERT-SERVICE");
         assertThat(route(5, "predicates[0]")).isEqualTo("Path=/api/v2/projects/*/escalation-policy,/api/v2/projects/*/escalation-policy/**");
 
-        assertThat(route(6, "id")).isEqualTo("alert-event-service");
-        assertThat(route(6, "predicates[0]")).isEqualTo("Path=/api/v2/projects/*/alerts/**");
-        assertThat(route(7, "id")).isEqualTo("alert-service");
-        assertThat(route(7, "filters[0]")).isEqualTo("StripPrefix=2");
+        assertThat(route(6, "id")).isEqualTo("alert-maintenance-window-service");
+        assertThat(route(6, "uri")).isEqualTo("lb://EDGECLOUD-ALERT-SERVICE");
+        assertThat(route(6, "predicates[0]")).isEqualTo(
+                "Path=/api/v2/projects/*/maintenance-windows,/api/v2/projects/*/maintenance-windows/**");
+        assertThat(route(6, "filters[0]")).isNull();
+
+        assertThat(route(7, "id")).isEqualTo("alert-event-service");
+        assertThat(route(7, "predicates[0]")).isEqualTo("Path=/api/v2/projects/*/alerts/**");
+        assertThat(route(8, "id")).isEqualTo("alert-service");
+        assertThat(route(8, "filters[0]")).isEqualTo("StripPrefix=2");
     }
 
     private String route(int index, String property) {
