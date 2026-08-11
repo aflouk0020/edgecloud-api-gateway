@@ -28,14 +28,14 @@ class EdgecloudApiGatewayApplicationTests {
         assertThat(route(4, "uri")).isEqualTo("lb://EDGECLOUD-ALERT-SERVICE");
         assertThat(route(4, "predicates[0]")).isEqualTo("Path=/api/v2/projects/*/alert-rules/**");
 
-        assertThat(route(5, "id")).isEqualTo("alert-event-service");
+        assertThat(route(5, "id")).isEqualTo("alert-escalation-policy-service");
         assertThat(route(5, "uri")).isEqualTo("lb://EDGECLOUD-ALERT-SERVICE");
-        assertThat(route(5, "predicates[0]")).isEqualTo("Path=/api/v2/projects/*/alerts/**");
-        assertThat(route(5, "filters[0]")).isNull();
+        assertThat(route(5, "predicates[0]")).isEqualTo("Path=/api/v2/projects/*/escalation-policy,/api/v2/projects/*/escalation-policy/**");
 
-        assertThat(route(6, "id")).isEqualTo("alert-service");
-        assertThat(route(6, "predicates[0]")).isEqualTo("Path=/api/v1/alerts/**");
-        assertThat(route(6, "filters[0]")).isEqualTo("StripPrefix=2");
+        assertThat(route(6, "id")).isEqualTo("alert-event-service");
+        assertThat(route(6, "predicates[0]")).isEqualTo("Path=/api/v2/projects/*/alerts/**");
+        assertThat(route(7, "id")).isEqualTo("alert-service");
+        assertThat(route(7, "filters[0]")).isEqualTo("StripPrefix=2");
     }
 
     private String route(int index, String property) {
