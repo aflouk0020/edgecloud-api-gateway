@@ -24,7 +24,7 @@ class JwtAuthenticationFilterTest {
 
     @Test
     void preservesBearerHeaderAndExposesTokenToDownstreamV2Request() throws Exception {
-        var request = new MockHttpServletRequest("GET", "/api/v2/projects/project-1/alerts/alert-1");
+        var request = new MockHttpServletRequest("GET", "/api/v2/notifications");
         request.addHeader("Authorization", "Bearer signed-token");
         var response = new MockHttpServletResponse();
 
@@ -33,5 +33,22 @@ class JwtAuthenticationFilterTest {
         assertThat(response.getStatus()).isEqualTo(200);
         assertThat(request.getHeader("Authorization")).isEqualTo("Bearer signed-token");
         assertThat(request.getAttribute("jwtToken")).isEqualTo("signed-token");
+    }
+
+    @Test
+    void rejectsNotificationRequestWithoutBearerToken() throws Exception {
+        var request = new MockHttpServletRequest("GET", "/api/v2/notifications/unread-count");
+        var response = new MockHttpServletResponse();
+        filter.doFilter(request, response, new MockFilterChain());
+        assertThat(response.getStatus()).isEqualTo(401);
+    }
+
+    @Test
+    void internalNotificationPathIsNotGatewayJwtProtected() throws Exception {
+        var request = new MockHttpServletRequest("POST", "/internal/notifications/alert-events");
+        var response = new MockHttpServletResponse();
+        filter.doFilter(request, response, new MockFilterChain());
+        assertThat(response.getStatus()).isEqualTo(200);
+        assertThat(request.getAttribute("jwtToken")).isNull();
     }
 }
