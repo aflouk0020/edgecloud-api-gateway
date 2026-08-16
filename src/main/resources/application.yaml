@@ -56,6 +56,11 @@ spring:
               predicates:
                 - Path=/api/v2/projects/*/alerts/**
 
+            - id: project-service
+              uri: lb://EDGECLOUD-PROJECT-SERVICE
+              predicates:
+                - Path=/api/v2/projects/**
+
             - id: alert-service
               uri: lb://EDGECLOUD-ALERT-SERVICE
               predicates:
