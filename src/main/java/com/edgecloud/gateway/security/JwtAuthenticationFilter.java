@@ -26,6 +26,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private static final List<String> PROTECTED_PATH_PREFIXES = List.of(
             "/api/v1/monitoring",
+            "/api/v1/aggregation",
             "/api/v1/devices",
             "/api/v1/alerts",
             "/api/v2/"
